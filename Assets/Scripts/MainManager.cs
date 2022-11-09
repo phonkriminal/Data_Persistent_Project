@@ -20,7 +20,7 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
     private readonly char pad = '0';
-
+    private List<Brick> bricks= new List<Brick>();
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class MainManager : MonoBehaviour
         ScoreText.text = $"Score {str.PadLeft(5, pad)}";
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
-        
+        bricks.Clear();
         int[] pointCountArray = new [] {1,1,2,2,5,5};
         for (int i = 0; i < LineCount; ++i)
         {
@@ -44,10 +44,17 @@ public class MainManager : MonoBehaviour
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
                 brick.PointValue = pointCountArray[i] * 10;
                 brick.onDestroyed.AddListener(AddPoint);
+                brick.onChange.AddListener(ChangeBricksList);
+                bricks.Add(brick);
             }
         }
     }
-
+    private void ChangeBricksList(Brick brick)
+    {
+        bricks.Remove(brick);
+        Debug.Log(bricks.Count);
+        if (bricks.Count == 0) { Debug.Log("New Level !!"); }
+    }
     private void Update()
     {
         if (!m_Started)

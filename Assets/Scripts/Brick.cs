@@ -7,7 +7,7 @@ using UnityEngine.Events;
 public class Brick : MonoBehaviour
 {
     public UnityEvent<int> onDestroyed;
-    
+    public UnityEvent<Brick> onChange;
     public int PointValue;
 
     void Start()
@@ -36,6 +36,7 @@ public class Brick : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         onDestroyed.Invoke(PointValue);
+        onChange.Invoke(this);
         
         //slight delay to be sure the ball have time to bounce
         Destroy(gameObject, 0.1f);

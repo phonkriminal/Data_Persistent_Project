@@ -20,6 +20,7 @@ public class AudioSFX : MonoBehaviour
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
+         
     }
     public void PlayBackground(AudioClip clip)
     {
